@@ -1,5 +1,5 @@
 package elms.entities;
 
-public enum entities {
+public enum Role {
     EMPLOYEE , MANAGER , ADMIN;
 }
