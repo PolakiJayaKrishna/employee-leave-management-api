@@ -1,5 +1,5 @@
 package elms.entities;
 
-public enum leaveStatus {
+public enum LeaveStatus {
     APPROVED , PENDING , REJECTED;
 }
