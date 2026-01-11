@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "LeaveRequest")
+@Table(name = "leave_requests")
 @Getter
 @Setter
 public class LeaveRequest {
