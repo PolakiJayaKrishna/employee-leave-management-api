@@ -43,6 +43,6 @@ The API automatically generates and manages three primary tables:
 3.  **H2 Console**: Access at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:elmsdb`).
 
 ## 🚧 Roadmap
-* [ ] **REST Controllers**: Exposing API endpoints for client consumption.
-* [ ] **Global Exception Handling**: Standardizing API error responses with a `@ControllerAdvice`.
-* [ ] **Spring Security**: Implementing JWT-based authentication for secure access.
+*  REST Controllers**: Exposing API endpoints for client consumption.
+* Global Exception Handling**: Standardizing API error responses with a `@ControllerAdvice`.
+* Spring Security**: Implementing JWT-based authentication for secure access.
