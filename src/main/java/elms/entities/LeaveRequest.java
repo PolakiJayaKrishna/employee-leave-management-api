@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "leave_requests")
@@ -24,13 +24,13 @@ public class LeaveRequest {
     @JoinColumn(name = "leave_type_id" , nullable = false)
     private LeaveType leaveType;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private LeaveStatus status = LeaveStatus.PENDING;
 
     private String reason;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDate createdAt = LocalDate.now();
 }

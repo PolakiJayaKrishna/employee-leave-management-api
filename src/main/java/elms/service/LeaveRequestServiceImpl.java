@@ -17,6 +17,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     @Override
     public LeaveRequest applyForLeave(LeaveRequest request){
         return leaveRequestRepository.save(request);
+
     }
 
     @Override
