@@ -1,48 +1,59 @@
-# Employee Leave Management API 🧱
+# Employee Leave Management System (ELMS)
 
-A robust RESTful API built with **Spring Boot** and **Java** designed to streamline the employee leave application and approval process. This project focuses on backend architecture, relational data modeling, and automated database persistence.
+A simple backend application built with Spring Boot to manage employee leave applications, approvals, and rejections.
 
-## 🏗️ Technical Architecture
-The project follows a standard **N-tier architecture** to ensure separation of concerns:
-* **Entity Layer**: Core models (`User`, `LeaveType`, `LeaveRequest`) with JPA mappings.
-* **Repository Layer**: Data access using `JpaRepository` for efficient database communication.
-* **Service Layer**: Business logic implementation, including status transitions and resource validation.
+## 🚀 Features
+* **Submit Leave Applications**: Employees can submit leave requests with start/end dates and reasons.
+* **Approve/Reject Requests**: Managers can update the status of any leave request.
+* **View All Requests**: Endpoint to retrieve all submitted leave records.
+* **Error Handling**: Global exception handling to provide clean JSON error messages when records are not found.
 
-## 🚀 Tech Stack
-* **Java 17** (Amazon Corretto)
-* **Spring Boot 3.x** (Framework)
-* **Spring Data JPA / Hibernate** (ORM & Persistence)
-* **H2 Database** (In-memory development database)
-* **Lombok** (Boilerplate reduction)
-* **Maven** (Build & Dependency Management)
+## 🛠️ Tech Stack
+* **Java 17** (Corretto)
+* **Spring Boot 4.0.1**
+* **Spring Data JPA** (Hibernate)
+* **H2 Database** (In-memory)
+* **Lombok**
 
-## ✨ Key Features Implemented
-* **Relational Mapping**: Configured `@ManyToOne` associations to link `LeaveRequests` with `Users` and `LeaveTypes`.
-* **Professional Service Layer**:
-    * Implemented **Constructor Injection** using `@RequiredArgsConstructor` for clean, testable code.
-    * Integrated **Defensive Programming** using Java’s `Optional` API and `.orElseThrow()` to prevent generic system crashes and prepare for global exception handling.
-* **Enum-based Logic**: Strict data integrity using `LeaveStatus` and `Role` enums for status tracking.
-* **Schema Resolution**: Successfully debugged Hibernate `SchemaManagementException` by optimizing `@Table` mappings and relational constraints.
+## 📡 API Endpoints
 
-## 📊 Database Schema
-The API automatically generates and manages three primary tables:
-* **users**: Stores employee/manager details and roles.
-* **leave_types**: Master data for leave categories (e.g., Sick, Casual).
-* **leave_requests**: Transactional table connecting users to specific leave requests with status tracking.
+| Method | Endpoint                          | Description                          |
+|:-------|:----------------------------------|:-------------------------------------|
+| POST   | `/api/leave-requests/apply`       | Submit a new leave request           |
+| GET    | `/api/leave-requests/all`         | View all leave requests in the system|
+| PUT    | `/api/leave-requests/{id}/status` | Update status (via Request Param)    |
 
-## 🛠️ Getting Started
-1.  **Clone the repository**:
-    ```bash
-    git clone [https://github.com/PolakiJayaKrishna/employee-leave-management-api.git](https://github.com/PolakiJayaKrishna/employee-leave-management-api.git)
-    ```
-2.  **Build and Run**:
-    ```bash
-    mvn clean install
-    mvn spring-boot:run
-    ```
-3.  **H2 Console**: Access at `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:elmsdb`).
+## 🧪 Testing with Postman
 
-## 🚧 Roadmap
-*  REST Controllers**: Exposing API endpoints for client consumption.
-* Global Exception Handling**: Standardizing API error responses with a `@ControllerAdvice`.
-* Spring Security**: Implementing JWT-based authentication for secure access.
+### 1. Apply for Leave (POST)
+**URL:** `http://localhost:8080/api/leave-requests/apply`  
+**Body (raw JSON):**
+{
+"user": { "id": 1 },
+"leaveType": { "id": 1 },
+"startDate": "2026-03-01",
+"endDate": "2026-03-05",
+"reason": "Family trip",
+"status": "PENDING"
+}
+
+### 2. Update Status (PUT)
+**URL:** `http://localhost:8080/api/leave-requests/1/status?status=APPROVED`
+
+---
+
+## ⚙️ Database Access
+The project uses an in-memory H2 database. To access the browser interface:
+1. Start the application.
+2. Go to: http://localhost:8080/h2-console
+3. **JDBC URL:** jdbc:h2:mem:elmsdb
+4. **User:** sa | **Password:** (blank)
+
+---
+
+## 🏗️ Project Structure
+* `elms.entities`: Database models (User, LeaveRequest, LeaveType).
+* `elms.repository`: Data access interfaces.
+* `elms.service`: Business logic implementation.
+* `elms.controller`: REST API Endpoints.
+* `elms.exception`: Global error handling logic.
