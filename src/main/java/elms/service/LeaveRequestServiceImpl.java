@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +30,10 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
                 .orElseThrow(() -> new RuntimeException("Leave Request not found with id: " + requestId));
         request.setStatus(LeaveStatus.valueOf(status.toUpperCase()));
         return leaveRequestRepository.save(request);
+    }
+
+    @Override
+    public List<LeaveRequest> getRequestByUserId(Long userId){
+        return leaveRequestRepository.findByUserId(userId);
     }
 }

@@ -11,4 +11,5 @@ import java.util.List;
 public interface LeaveRequestRepository extends JpaRepository<LeaveRequest , Long> {
     List<LeaveRequest> findByUser(User user);
     List<LeaveRequest> findByStatus(String status);
+    List<LeaveRequest> findByUserId(Long userId);
 }

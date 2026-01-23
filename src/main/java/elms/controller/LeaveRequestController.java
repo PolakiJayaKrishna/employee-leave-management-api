@@ -35,4 +35,9 @@ public class LeaveRequestController {
         LeaveRequest updatedRequest = leaveRequestService.updateStatus(id , status);
         return ResponseEntity.ok(updatedRequest);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<LeaveRequest>> getEmployeeLeaveHistory(@PathVariable Long userId){
+        return ResponseEntity.ok(leaveRequestService.getRequestByUserId(userId));
+    }
 }
