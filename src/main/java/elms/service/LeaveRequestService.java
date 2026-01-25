@@ -11,4 +11,6 @@ public interface LeaveRequestService {
     LeaveRequest updateStatus(Long requestId , String status);
 
     List<LeaveRequest> getRequestByUserId(Long userId);
+
+    LeaveRequest updateLeaveRequest(Long id, LeaveRequest updatedRequest);
 }

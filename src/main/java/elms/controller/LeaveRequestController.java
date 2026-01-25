@@ -40,4 +40,9 @@ public class LeaveRequestController {
     public ResponseEntity<List<LeaveRequest>> getEmployeeLeaveHistory(@PathVariable Long userId){
         return ResponseEntity.ok(leaveRequestService.getRequestByUserId(userId));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LeaveRequest> updateLeaveRequest(@PathVariable Long id, @RequestBody LeaveRequest updatedRequest) {
+        return ResponseEntity.ok(leaveRequestService.updateLeaveRequest(id, updatedRequest));
+    }
 }

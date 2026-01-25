@@ -36,4 +36,18 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
     public List<LeaveRequest> getRequestByUserId(Long userId){
         return leaveRequestRepository.findByUserId(userId);
     }
+
+    @Override
+    public LeaveRequest updateLeaveRequest(Long id , LeaveRequest updatedRequest){
+        LeaveRequest existingRequest = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Leave Request not found with id: " + id));
+
+        // Update the fields
+        existingRequest.setStartDate(updatedRequest.getStartDate());
+        existingRequest.setEndDate(updatedRequest.getEndDate());
+        existingRequest.setReason(updatedRequest.getReason());
+        existingRequest.setLeaveType(updatedRequest.getLeaveType());
+
+        return leaveRequestRepository.save(existingRequest);
+    }
 }
