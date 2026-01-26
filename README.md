@@ -1,6 +1,6 @@
 # Employee Leave Management System (ELMS)
 
-A backend application built with Spring Boot to manage employee leave applications, approvals, and rejections efficiently.
+A backend application built with Spring Boot to manage employee leave applications, approvals, rejections, and updates efficiently.
 
 ---
 
@@ -25,6 +25,7 @@ git clone https://github.com/PolakiJayaKrishna/employee-leave-management-api.git
 ## 🚀 Features
 
 - Submit Leave Applications: Employees can submit leave requests with start/end dates and reasons
+- Edit Leave Applications: Employees can update dates, reason, or leave type before approval
 - Approve / Reject Requests: Managers can update the status of any leave request
 - View All Requests: Retrieve all submitted leave records
 - Employee History: View leave history by User ID
@@ -49,7 +50,8 @@ Method | Endpoint                          | Description
 POST   | /api/leave-requests/apply         | Submit a new leave request
 GET    | /api/leave-requests/all           | View all leave requests in the system
 GET    | /api/leave-requests/user/{id}     | View leave history for a specific employee
-PUT    | /api/leave-requests/{id}/status   | Update status (via request parameter)
+PUT    | /api/leave-requests/{id}          | Edit an existing leave request
+PUT    | /api/leave-requests/{id}/status   | Update leave status (approve/reject)
 
 ---
 
@@ -73,7 +75,23 @@ Body (raw JSON):
 
 ---
 
-### 2. View User History (GET)
+### 2. Edit Leave Request (PUT)
+
+URL:
+http://localhost:8080/api/leave-requests/1
+
+Body (raw JSON):
+
+{
+"startDate": "2026-04-10",
+"endDate": "2026-04-12",
+"reason": "Updated: Trip rescheduled",
+"leaveType": { "id": 1 }
+}
+
+---
+
+### 3. View User History (GET)
 
 URL:
 http://localhost:8080/api/leave-requests/user/1
@@ -82,7 +100,7 @@ Returns all leave requests belonging to the user with ID 1.
 
 ---
 
-### 3. Update Status (PUT)
+### 4. Update Status (PUT)
 
 URL:
 http://localhost:8080/api/leave-requests/1/status?status=APPROVED
@@ -118,6 +136,6 @@ elms.exception  : Global error handling using @RestControllerAdvice
 
 - REST Controllers for leave workflows (DONE)
 - Global exception handling using @ControllerAdvice (DONE)
+- Edit/update leave requests (DONE)
 - JWT-based authentication with Spring Security (PLANNED)
-- Edit/update pending leave requests (PLANNED)
 - Role-based access control: EMPLOYEE / MANAGER / ADMIN (PLANNED)
