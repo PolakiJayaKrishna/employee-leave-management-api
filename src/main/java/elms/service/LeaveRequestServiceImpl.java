@@ -50,4 +50,17 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         return leaveRequestRepository.save(existingRequest);
     }
+
+    @Override
+    public LeaveRequest updateLeaveStatus(Long id , String status){
+        LeaveRequest leaveRequest = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Leave Request not found with id: \" + id)"));
+        leaveRequest.setStatus(LeaveStatus.valueOf(status.toUpperCase()));
+
+        return leaveRequestRepository.save(leaveRequest);
+    }
+
+    public List<LeaveRequest> getRequestByStatus(String status){
+        return leaveRequestRepository.findByStatus(LeaveStatus.valueOf(status.toUpperCase()));
+    }
 }

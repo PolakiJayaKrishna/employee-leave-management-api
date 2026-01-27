@@ -45,4 +45,9 @@ public class LeaveRequestController {
     public ResponseEntity<LeaveRequest> updateLeaveRequest(@PathVariable Long id, @RequestBody LeaveRequest updatedRequest) {
         return ResponseEntity.ok(leaveRequestService.updateLeaveRequest(id, updatedRequest));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<LeaveRequest>> getLeavesByStatus(@RequestParam String status){
+        return ResponseEntity.ok(leaveRequestService.getRequestByStatus(status));
+    }
 }
