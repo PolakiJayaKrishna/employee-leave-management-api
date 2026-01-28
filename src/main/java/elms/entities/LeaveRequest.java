@@ -33,4 +33,6 @@ public class LeaveRequest {
     private String reason;
 
     private LocalDate createdAt = LocalDate.now();
+
+    private Integer duration; // Calculated as (endDate - startDate)
 }

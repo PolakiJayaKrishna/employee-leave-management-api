@@ -1,21 +1,20 @@
 package elms.service;
 
 
+import elms.dto.LeaveRequestResponseDTO;
 import elms.entities.LeaveRequest;
-import elms.entities.LeaveStatus;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
 public interface LeaveRequestService {
-    LeaveRequest applyForLeave(LeaveRequest request);
-    List<LeaveRequest> getAllRequests();
-    LeaveRequest updateStatus(Long requestId , String status);
+    LeaveRequestResponseDTO applyForLeave(LeaveRequest request);
+    List<LeaveRequestResponseDTO> getAllRequests();
+    List<LeaveRequestResponseDTO> getRequestByUserId(Long userId);
+    List<LeaveRequestResponseDTO> getRequestByStatus(String status);
 
-    List<LeaveRequest> getRequestByUserId(Long userId);
-
-    LeaveRequest updateLeaveRequest(Long id, LeaveRequest updatedRequest);
-    LeaveRequest updateLeaveStatus(Long id, String status);
-
-    @Nullable List<LeaveRequest> getRequestByStatus(String status);
+    // Use this name consistently:
+    LeaveRequestResponseDTO updateLeaveStatus(Long id, String status);
+    LeaveRequestResponseDTO updateStatus(Long requestId, String status);
+    LeaveRequestResponseDTO updateLeaveRequest(Long id, LeaveRequest updatedRequest);
 }

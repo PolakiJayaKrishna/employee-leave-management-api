@@ -28,4 +28,9 @@ public class User {
     private String password;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    private Integer totalLeaveBalance = 24; // Default starting balance for the year
+
+    @Column(name = "remaining_leave_balance", nullable = false)
+    private Integer remainingLeaveBalance = 24;
 }
