@@ -73,6 +73,12 @@ mvn spring-boot:run
 - Follows layered architecture (Controller → Service → Repository → DB)
 
 ---
+### ✅ Recent Updates (Today's Progress)
+- [x] **DTO Implementation**: Separated internal Entities from external API Responses for better security.
+- [x] **Smart Calculation**: Automated leave duration counting.
+- [x] **Balance Protection**: Built the logic to prevent users from over-booking their leave.
+- [x] **Atomic Transactions**: Ensured database consistency with `@Transactional`.
+---
 
 ## 📌 Future Enhancements
 
