@@ -3,6 +3,7 @@ package elms.controller;
 import elms.dto.LeaveRequestResponseDTO;
 import elms.entities.LeaveRequest; // Ensure this matches your package name
 import elms.service.LeaveRequestService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class LeaveRequestController {
 
     // 1. Apply for Leave
     @PostMapping("/apply")
-    public ResponseEntity<LeaveRequestResponseDTO> applyForLeave(@RequestBody LeaveRequest leaveRequest){
+    public ResponseEntity<LeaveRequestResponseDTO> applyForLeave(@Valid @RequestBody LeaveRequest leaveRequest){
         // Service returns DTO -> Controller catches DTO. No more red lines!
         return new ResponseEntity<>(leaveRequestService.applyForLeave(leaveRequest), HttpStatus.CREATED);
     }
