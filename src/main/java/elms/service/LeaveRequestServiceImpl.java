@@ -5,6 +5,8 @@ import elms.dto.UserResponseDTO;
 import elms.entities.LeaveRequest;
 import elms.entities.LeaveStatus;
 import elms.entities.User;
+import elms.exception.LeaveBalanceException;
+import elms.exception.ResourceNotFoundException;
 import elms.repository.LeaveRequestRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,12 +34,12 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
 
         //3.Fetch User from the DataBase
         User user = userRepository.findById(request.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not Found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not Found"));
 
         request.setUser(user);
 
         //4.Business Rule: Check if they have enough days left
-        if(days > user.getRemainingLeaveBalance()) throw new RuntimeException(("Insufficient Leave Balance. You requested " + days +
+        if(days > user.getRemainingLeaveBalance()) throw new LeaveBalanceException(("Insufficient Leave Balance. You requested " + days +
                 " days, but only have " + user.getRemainingLeaveBalance() + " left."));
 
         //5.If all Good, Set the Duration and Save
