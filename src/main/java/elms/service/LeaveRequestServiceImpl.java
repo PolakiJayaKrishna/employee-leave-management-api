@@ -170,6 +170,21 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteLeaveRequest(Long id) {
+        LeaveRequest request = leaveRequestRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
+
+        // If it was already approved, maybe you want to give the balance back?
+        // That's a great piece of business logic to add!
+        if (request.getStatus().equals(LeaveStatus.APPROVED)) {
+            User user = request.getUser();
+            user.setRemainingLeaveBalance(user.getRemainingLeaveBalance() + request.getDuration());
+            userRepository.save(user);
+        }
+
+        leaveRequestRepository.delete(request);
+    }
+
     private LeaveRequestResponseDTO convertToResponseDTO(LeaveRequest leaveRequest) {
         LeaveRequestResponseDTO dto = new LeaveRequestResponseDTO();
         dto.setId(leaveRequest.getId());

@@ -4,13 +4,17 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.hibernate.annotations.SQLDelete;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "leave_requests")
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE leave_requests SET deleted = true WHERE id=?")
+// This line tells Hibernate: "Instead of deleting, just set the 'deleted' column to true."
+@org.hibernate.annotations.SQLRestriction("deleted = false")
+// This line tells Hibernate: "Whenever I ask for data, ignore anything where deleted is true."
 public class LeaveRequest {
 
     @Id
@@ -43,4 +47,6 @@ public class LeaveRequest {
     private LocalDate createdAt = LocalDate.now();
 
     private Integer duration; // Calculated as (endDate - startDate)
+
+    private boolean deleted = false;
 }

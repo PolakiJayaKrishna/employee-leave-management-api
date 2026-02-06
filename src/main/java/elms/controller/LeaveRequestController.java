@@ -54,4 +54,10 @@ public class LeaveRequestController {
     public ResponseEntity<List<LeaveRequestResponseDTO>> getLeavesByStatus(@RequestParam String status){
         return ResponseEntity.ok(leaveRequestService.getRequestByStatus(status));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRequest(@PathVariable Long id) {
+        leaveRequestService.deleteLeaveRequest(id);
+        return ResponseEntity.ok("Leave request cancelled and balance restored (if applicable).");
+    }
 }
