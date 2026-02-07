@@ -8,4 +8,5 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private Integer remainingLeaveBalance;
+    private String role;
 }

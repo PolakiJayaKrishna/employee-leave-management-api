@@ -1,6 +1,7 @@
 package elms.service;
 
 import elms.dto.LeaveRequestResponseDTO;
+import elms.dto.LoginRequest;
 import elms.dto.UserResponseDTO;
 import elms.entities.LeaveRequest;
 import elms.entities.LeaveStatus;
