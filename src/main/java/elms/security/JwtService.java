@@ -29,6 +29,7 @@ public class JwtService {
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
+                .claim("role", userDetails.getAuthorities()) //When the user logs in, the Frontend decodes the token. If it sees "role": "MANAGER", it shows the "Approve Leave" button. If it sees "EMPLOYEE", it hides it.
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSignInKey() , SignatureAlgorithm.HS256)
@@ -70,14 +71,29 @@ public class JwtService {
                                                                                                                                 v    v
                                                                                                                     Function<Input, Output>
                                                                                                                      */
-
+    //5.THE GOGGLES.[Open the Box]
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        return Jwts.parserBuilder()                         //Start the inspection tool.
+                .setSigningKey(getSignInKey())              //Load the Secret Key to verify the signature (Checking: "Is this fake?").
+                .build()                                    //Finish setting up the tool.
+                .parseClaimsJws(token)                      //Unlock and verify the specific token string.If the token was tampered with (hacked) or expired, this line explodes (throws an Exception).
+                .getBody();                                 //Extract the Data (Payload) so we can use it.
     }
 
+    //4.Logic Important
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token); // Use your "exactUsername" method here
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    // Helper: Check if today is after the expiration date
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    // Helper: Get the expiration date from the token
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
 
 }

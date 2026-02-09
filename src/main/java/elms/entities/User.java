@@ -46,6 +46,9 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+    //1.role.name(): Takes your Enum and turns it into a String "MANAGER".
+    //2.new SimpleGrantedAuthority(...): Takes that String and laminates it into an official ID Badge.
+    //3.Why a List? Because in the future, a user might be a MANAGER and an ADMIN. They would have two badges in their wallet.
 
     //This is to Convert Enum -> GrantedAuthority objects. Because Spring Security only understands GrantedAuthority objects.
 
