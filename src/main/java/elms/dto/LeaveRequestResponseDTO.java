@@ -1,10 +1,12 @@
 package elms.dto;
 
 import elms.entities.LeaveStatus;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class LeaveRequestResponseDTO {
     private Long id;
     private LocalDate startDate;

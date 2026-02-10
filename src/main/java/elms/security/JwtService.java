@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class JwtService {
 
     // 1. INJECT VARIABLES FROM APPLICATION.PROPERTIES
-    @Value("${security.jwt.secret-key}") //Make Sure this Value is not Lombok annotation
+    @Value("${security.jwt.secret-key}") //Make Sure this Value is not a Lombok annotation
     private String secretKey;
 
     @Value("${security.jwt.expiration-time}")
@@ -33,7 +33,7 @@ public class JwtService {
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(getSignInKey() , SignatureAlgorithm.HS256)
-                //This is HS256 algorithm. Cannot read a "String"[Test].
+                //This is the HS256 algorithm. Cannot read a "String"[Test].
                 //They only understand Bytes.The Problem: SECRET_KEY is just text.
                 .compact();
     }
