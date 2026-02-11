@@ -1,27 +1,46 @@
 package elms.security;
 
-import elms.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    // 1. INJECT THE TOOLS WE BUILT YESTERDAY
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(); //BCryptPasswordEncoder actual Algorithm.
-        // Add 1.One Way Hashing , 2.salt , 3.Slow[Helps to reduce attack types like BruteForce]
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                // 2. DISABLE CSRF (Standard for APIs)
+                .csrf(csrf -> csrf.disable())
+
+                // 3. THE TRAFFIC RULES
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/**").permitAll() // Open Door: Login/Register is public
+                        .anyRequest().authenticated()                // Closed Door: Everything else needs a Token
+                )
+
+                // 4. NO SESSIONS (The "Stateless" Rule)
+                .sessionManagement(sess -> sess
+                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        // We don't save login state in server RAM. The Token holds the state.
+                )
+
+                // 5. CONNECT THE WIRES
+                .authenticationProvider(authenticationProvider) // Use our DB lookup
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Check Token BEFORE checking Password
+
+        return http.build();
     }
-    //encode(rawPassword): Turns "pass123" into a mess of characters.
-    //matches(rawPassword, encodedPassword): Checks if the "pass123" the user just typed matches the "mess of characters" in the database.
-
-
-
-
 }
