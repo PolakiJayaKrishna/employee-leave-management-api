@@ -2,8 +2,10 @@ package elms.entities;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,17 +14,20 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String firstname;
+    private String lastname;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -32,10 +37,13 @@ public class User implements UserDetails {
 
     private String password;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
     private Integer totalLeaveBalance = 24; // Default starting balance for the year
 
+    @Builder.Default
     @Column(name = "remaining_leave_balance", nullable = false)
     private Integer remainingLeaveBalance = 24;
 

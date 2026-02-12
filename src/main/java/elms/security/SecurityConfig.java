@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig { //The Rule Book (Traffic Laws) for the whole app.
 
     // 1. INJECT THE TOOLS WE BUILT YESTERDAY
     private final JwtAuthenticationFilter jwtAuthFilter;

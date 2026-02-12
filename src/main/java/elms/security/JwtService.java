@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtService { //The machine that prints ID cards (Tokens).
 
     // 1. INJECT VARIABLES FROM APPLICATION.PROPERTIES
     @Value("${security.jwt.secret-key}") //Make Sure this Value is not a Lombok annotation

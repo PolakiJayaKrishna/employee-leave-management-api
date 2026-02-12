@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/leave-requests")
+@RequestMapping("/api/leave-requests")
 @RequiredArgsConstructor
 public class LeaveRequestController {
     private final LeaveRequestService leaveRequestService;

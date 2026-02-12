@@ -29,7 +29,8 @@ public class UserServiceImpl {
     private UserResponseDTO convertToUserDTO(User user) {
         UserResponseDTO dto = new UserResponseDTO();
         dto.setId(user.getId());
-        dto.setName(user.getName());
+        dto.setName(user.getFirstname());
+        dto.setName(user.getLastname());
         dto.setEmail(user.getEmail());
         dto.setRole(user.getRole().name());
 
