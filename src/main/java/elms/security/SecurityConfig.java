@@ -28,6 +28,12 @@ public class SecurityConfig { //The Rule Book (Traffic Laws) for the whole app.
                 // 3. THE TRAFFIC RULES
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Open Door: Login/Register is public
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**")
+                        .permitAll()
                         .anyRequest().authenticated()                // Closed Door: Everything else needs a Token
                 )
 
