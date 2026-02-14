@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public class LeaveRequestController {
     // 2. Get All Requests (Returns a List of DTOs)
     @Operation(summary = "Get all leave requests", description = "Retrieve all leave requests in the system")
     @ApiResponse(responseCode = "200", description = "List of all leave requests")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/all")
     public ResponseEntity<List<LeaveRequestResponseDTO>> getAllRequests(){
         return ResponseEntity.ok(leaveRequestService.getAllRequests());
@@ -45,8 +47,10 @@ public class LeaveRequestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status updated successfully"),
             @ApiResponse(responseCode = "404", description = "Leave request not found"),
-            @ApiResponse(responseCode = "400", description = "Insufficient balance to approve")
+            @ApiResponse(responseCode = "400", description = "Insufficient balance to approve"),
+            @ApiResponse(responseCode = "403", description = "Access denied — Manager role required")
     })
+    @PreAuthorize("hasAuthority('MANAGER')")
     @PutMapping("/{id}/status")
     public ResponseEntity<LeaveRequestResponseDTO> updateStatus(@PathVariable Long id, @RequestParam String status){
         // We call updateLeaveStatus (the smart method we built)
@@ -76,6 +80,7 @@ public class LeaveRequestController {
     // 6. Filter by Status (Pending/Approved/Rejected)
     @Operation(summary = "Filter leaves by status", description = "Filter leave requests by status: PENDING, APPROVED, or REJECTED")
     @ApiResponse(responseCode = "200", description = "Filtered list of leave requests")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @GetMapping("/filter")
     public ResponseEntity<List<LeaveRequestResponseDTO>> getLeavesByStatus(@RequestParam String status){
         return ResponseEntity.ok(leaveRequestService.getRequestByStatus(status));

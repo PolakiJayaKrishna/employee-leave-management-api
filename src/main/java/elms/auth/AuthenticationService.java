@@ -1,6 +1,7 @@
 package elms.auth;
 
 import elms.entities.Role;
+import elms.exception.DuplicateEmailException;
 import elms.repository.UserRepository;
 import elms.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,10 @@ public class AuthenticationService {
         private final AuthenticationManager authenticationManager;
 
         public AuthenticationResponse register(RegisterRequest request) {
+            // Check if email already exists
+            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+                throw new DuplicateEmailException("Email already registered: " + request.getEmail());
+            }
                 var user = User.builder()
                                 .firstname(request.getFirstname())
                                 .lastname(request.getLastname())

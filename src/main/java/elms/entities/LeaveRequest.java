@@ -1,5 +1,6 @@
 package elms.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -31,10 +32,12 @@ public class LeaveRequest {
 
     @NotNull(message = "Start date is mandatory")
     @FutureOrPresent(message = "Start date cannot be in the past")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate startDate;
 
     @NotNull(message = "End date is mandatory")
     @Future(message = "End date must be a future date")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +47,7 @@ public class LeaveRequest {
     @Size(min = 10, max = 255, message = "Reason must be between 10 and 255 characters")
     private String reason;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate createdAt = LocalDate.now();
 
     private Integer duration; // Calculated as (endDate - startDate)

@@ -201,6 +201,7 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
             userDTO.setName(leaveRequest.getUser().getFirstname() + " " + leaveRequest.getUser().getLastname());
             userDTO.setEmail(leaveRequest.getUser().getEmail());
             userDTO.setRemainingLeaveBalance(leaveRequest.getUser().getRemainingLeaveBalance());
+            userDTO.setRole(leaveRequest.getUser().getRole().name());
             dto.setUser(userDTO);
         }
         return dto;
