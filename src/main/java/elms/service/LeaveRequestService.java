@@ -15,7 +15,6 @@ public interface LeaveRequestService {
 
     // Use this name consistently:
     LeaveRequestResponseDTO updateLeaveStatus(Long id, String status);
-    LeaveRequestResponseDTO updateStatus(Long requestId, String status);
     LeaveRequestResponseDTO updateLeaveRequest(Long id, LeaveRequest updatedRequest);
     void deleteLeaveRequest(Long id);
 }

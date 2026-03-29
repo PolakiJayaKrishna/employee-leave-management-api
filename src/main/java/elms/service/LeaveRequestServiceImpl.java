@@ -58,38 +58,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService {
                 .map(this::convertToResponseDTO) // Converts every entity in the list to a DTO
                 .collect(Collectors.toList());
     }
-    @Override
-    @Transactional // 1. CRITICAL: Ensures DB consistency if the balance update fails
-    public LeaveRequestResponseDTO updateStatus(Long requestId, String status) {
-        // 2. Fetch the request+1
-        LeaveRequest request = leaveRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Leave Request not found with id: " + requestId));
-
-        // 3. Convert input string to Enum
-        LeaveStatus newStatus = LeaveStatus.valueOf(status.toUpperCase());
-
-        // 4. BUSINESS LOGIC: Subtract days only if the status is changing to APPROVED
-        if (request.getStatus() == LeaveStatus.PENDING && newStatus == LeaveStatus.APPROVED) {
-            User user = request.getUser();
-
-            int updatedBalance = user.getRemainingLeaveBalance() - request.getDuration();
-
-            // Safety Check
-            if (updatedBalance < 0) {
-                throw new RuntimeException("Cannot approve: User has insufficient balance.");
-            }
-
-            user.setRemainingLeaveBalance(updatedBalance);
-            userRepository.save(user); // Save the updated user balance
-        }
-
-        // 5. Update and save the leave request
-        request.setStatus(newStatus);
-        LeaveRequest savedRequest = leaveRequestRepository.save(request);
-
-        // 6. Return the clean DTO (hides passwords)
-        return convertToResponseDTO(savedRequest);
-    }
 
     @Override
     public List<LeaveRequestResponseDTO> getRequestByUserId(Long userId) {
