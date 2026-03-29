@@ -34,7 +34,8 @@ public class SecurityConfig { //The Rule Book (Traffic Laws) for the whole app.
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
-                                "/swagger-resources/**")
+                                "/swagger-resources/**",
+                                "/error")
                         .permitAll()
                         .anyRequest().authenticated()                // Closed Door: Everything else needs a Token
                 )
