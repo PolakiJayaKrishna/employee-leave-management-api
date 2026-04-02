@@ -123,6 +123,41 @@ src/main/java/elms/
 
 ## 📊 Business Logic
 
+### Architecture & Workflow
+
+The diagram below illustrates the complete lifecycle of a Leave Request, demonstrating our security filters, business rule validation, and ACID-compliant database transactions.
+
+```mermaid
+graph TD
+    classDef success fill:#1b4a3c,stroke:#2ecc71,stroke-width:2px,color:white;
+    classDef bg fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:white;
+    classDef fail fill:#4a1c1c,stroke:#e74c3c,stroke-width:2px,color:white;
+    classDef warning fill:#8a6015,stroke:#f1c40f,stroke-width:2px,color:white;
+    
+    A[Employee POST: <br> /api/leave-requests]:::bg --> B[System Validation Filter <br> Spring Security]:::bg
+    
+    B --> C{Is JWT <br> Valid?}
+    C -- No --> D[Response: 401/403 <br> Unauthorized]:::fail
+    
+    C -- Yes --> E{Are Dates Valid? <br> End > Start}
+    E -- No --> F[Failure Path <br> Exception]:::fail
+    
+    E -- Yes --> G{Has Sufficient <br> Leave Balance?}
+    G -- No --> H[Response: 400 <br> Bad Request]:::fail
+    
+    G -- Yes --> I[Create Request <br> Status: PENDING]:::bg
+    
+    I --> J{Manager Action <br> PUT Request}
+    
+    J -- APPROVE --> K{"@Transactional Block"}:::success
+    K --> L[Update Request: APPROVED]:::success
+    L --> M[Deduct Leave Balance]:::success
+    M --> N[Response: 200 OK]:::success
+
+    J -- REJECT --> O[Update Request: REJECTED]:::warning
+    O --> P[Response: 200 OK]:::warning
+```
+
 ### Leave Balance Workflow
 
 ```
