@@ -19,6 +19,14 @@ A production-grade **REST API** built with **Spring Boot** for managing employee
 
 ---
 
+## 🚀 Live Demo
+
+**Test the API directly in your browser:**  
+🔗 **[Swagger UI - Live Endpoints](https://elms-backend-bo8e.onrender.com/swagger-ui/index.html)**<br>
+*(Note: It may take 30-50 seconds to spin up on the first request since it is hosted on a free Render instance).*
+
+---
+
 ## 🏗️ Architecture
 
 ```
@@ -313,7 +321,7 @@ http://localhost:8080/swagger-ui/index.html
 - [ ] Leave the analytics dashboard with charts
 - [ ] Admin panel for managing leave types and quotas
 - [ ] Calendar integration for team availability view
-- [ ] Unit & integration tests with JUnit 5
+- [x] Unit & integration tests with JUnit 5
 
 ---
 
